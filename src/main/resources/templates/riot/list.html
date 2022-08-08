@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>검색결과1</title>
+</head>
+<body>
+	<span th:text="'소환사명  = ' + ${summonerData.name}"></span></br>
+	<span th:text="'id  = ' + ${summonerData.id}"></span></br>
+	<span th:text="'puuid  = ' + ${summonerData.puuid}"></span></br>
+	<span th:text="'레벨  = ' + ${summonerData.summonerLevel}"></span></br>
+	<span th:text="'아이콘 넘버  = ' + ${summonerData.profileIconId}"></span></br>
+	
+	<div th:each="json : ${json}">
+		<div th:text="${json.championName}"></div>
+	</div>
+<!-- 	<h1>json</h1>
+	<span th:text="${json.summonerName}"></span></br>
+	<span th:text="${json.perks.styles[0].description}"></span></br>
+	
+	<h1>string</h1>
+	<span th:text="${json.perks.styles[0].description}"></span></br> -->
+</body>
+</html>

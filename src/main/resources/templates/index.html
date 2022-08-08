@@ -4,7 +4,43 @@
 <meta charset="UTF-8">
 <title>테스트</title>
 </head>
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script type="text/javascript">
+/* 	$(function(){
+		var green = '<span id="green" style="color: green;">비밀번호가 일치합니다</span>'
+		var red = '<span id="red" style="color: red;">비밀번호가 일치하지 않습니다.</span>'
+		
+		$(".passwordCheck").keyup(function(){ // keyup 함수 -> passwordCheck 클래스가 타이핑 됐을 때 
+			if($(".password").val() == $(".passwordCheck").val()){  //password 클래스와 passwordCheck 클래스의 값이 같다면 // val()이 value임 
+				
+				$(".submit").removeAttr('disabled'); // reomveAttr -> 속성 제거 
+				$("#green").remove();
+				$("#red").remove();
+				$(".loginBox").append(green); //append -> loginBox 클래스 다음에 값 추가 
+			}else{
+				$(".submit").attr('disabled','disabled'); //attr -> 속성추가  ex) $(".password").attr('placeholder', '비번');
+				$("#green").remove();
+				$("#red").remove();
+				$(".loginBox").append(red);
+			} 
+		})
+	
+	}) */
+</script>
 <body>
-	<a href ="/board">게시판</a>
+	<div>
+		<form action="/search" method="get">
+			<input type="text" placeholder="소환사명" name="name">
+			<input type="submit">
+		</form>
+	</div>
+<!-- 	<div class="loginBox">
+		<form action="/search" method="post">
+			<input class="id" type="text" placeholder="아이디" name="id">
+			<input class="password" type="password" placeholder="비밀번호" name="password">
+			<input class="passwordCheck" type="password" placeholder="비밀번호확인">
+			<input class="submit" type="submit" disabled="disabled" value="로그인">
+		</form>
+	</div> -->
 </body>
 </html>
