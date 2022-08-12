@@ -1,12 +1,17 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-<meta charset="UTF-8">
-<title>테스트</title>
+	<meta charset="UTF-8">
+	<title>테스트</title>
 </head>
 <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-<script type="text/javascript">
-/* 	$(function(){
+<script crossorigin src="https://unpkg.com/react@17/umd/react.development.js"></script>
+<script crossorigin src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+<!-- <script type="text/javascript">
+ 	$(function(){
+ 		
 		var green = '<span id="green" style="color: green;">비밀번호가 일치합니다</span>'
 		var red = '<span id="red" style="color: red;">비밀번호가 일치하지 않습니다.</span>'
 		
@@ -25,16 +30,29 @@
 			} 
 		})
 	
-	}) */
+	}) 
+</script> -->
+<script type="text/babel">
+	const rootElement = document.getElementById("root");
+	const text = "Hello, world!"
+	const titleClassName = "title";
+	const props = {className : titleClassName, children: text};
+	const element = <h1 {...props} />;
+	
+	ReactDOM.render(element, rootElement);
 </script>
 <body>
+	<div id="root">
+
+	</div>
+	<div style="margin-top : 100px;">----------------------------------------------</div>
 	<div>
 		<form action="/search" method="get">
-			<input type="text" placeholder="소환사명" name="name">
-			<input type="submit">
+			<input type="text" placeholder="소환사명" name="name"> <input type="submit">
 		</form>
 	</div>
-<!-- 	<div class="loginBox">
+
+<!--	 	<div class="loginBox">
 		<form action="/search" method="post">
 			<input class="id" type="text" placeholder="아이디" name="id">
 			<input class="password" type="password" placeholder="비밀번호" name="password">
@@ -43,4 +61,5 @@
 		</form>
 	</div> -->
 </body>
+
 </html>
