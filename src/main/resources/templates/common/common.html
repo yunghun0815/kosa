@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:fragment="head">
+<meta charset="UTF-8">
+<title>yh.gg</title>
+	<link rel="stylesheet" type="text/css" href="/css/common.css">
+	<link rel="stylesheet" type="text/css" href="/css/search.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<script type="text/javascript" src="/js/parse.js"></script>
+</head>
+<body>
+	<header th:fragment="header">
+		<!-- 상단 헤더 -->
+		<section class="flex first-header">
+			<div class="flex header-banner">
+				<a href="/">
+					<h1 style="color:white">League of Legends</h1>
+				</a>
+			</div>
+			<div style="position: relative; right: 300px; padding-top: 5px;">
+				<a href="/test" style="color:red;">테스트 페이지</a>
+			</div>
+			<div class="header-login">
+				<div class="flex menu">
+					<!--<ul class="flex">
+						<li>
+							<a href="/board">커뮤니티</a>
+						</li>
+					</ul>-->
+					<button onclick="location.href='/sign/login'" sec:authorize="isAnonymous()">로그인</button>
+					<button onclick="location.href='/logout'" sec:authorize="isAuthenticated()">로그아웃</button>
+				</div>
+			</div>
+		</section>
+	</header>
+	<main>
+		<section>
+			<div>
+				<form action="/search" method="get">
+					<input type="text" name="name" placeholder="소환사명">
+					<button type="submit">검색</button>
+				</form>
+			</div>
+		</section>
+		<section>
+			<div>
+				<!-- 인기글 ajax -->
+			</div>
+		</section>
+	</main>
+	<footer th:fragment="footer">
+		<section class="view-size">
+			<div>
+				<span>
+					github : https://github.com/yunghun0815/kosa
+				</span>
+				<br>
+				<br>
+				<span>
+					League of Legends and Riot Games are trademarks or registered trademarks of Riot Games, Inc. League of Legends © Riot Games, Inc.
+				</span>
+			</div>
+		</section>
+	</footer>
+</body>
+</html>

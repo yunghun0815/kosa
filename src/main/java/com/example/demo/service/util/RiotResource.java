@@ -1,4 +1,4 @@
-package com.example.demo.service.apiResource;
+package com.example.demo.service.util;
 
 public class RiotResource {
 	

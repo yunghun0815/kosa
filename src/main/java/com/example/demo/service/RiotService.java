@@ -3,7 +3,7 @@ package com.example.demo.service;
 import org.springframework.web.servlet.ModelAndView;
 
 public interface RiotService {
-	void search(ModelAndView mv, String name) throws Exception;
+	void search(ModelAndView mv, String name, int no) throws Exception;
 	
 	//기본정보 검색
 	String summoner(String name) throws Exception;

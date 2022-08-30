@@ -1,0 +1,47 @@
+<html xmlns:th="http://www.thymeleaf.org">
+
+	
+	<section th:fragment="summonerInfo" class="summonerInfo">
+	
+		<!-- 소환사 기본 정보 --> 
+		<div class="summonerDetailInfo" >
+			<img th:src="'https://ddragon.leagueoflegends.com/cdn/12.1.1/img/profileicon/' + ${summonerData.profileIconId} + '.png'">
+			<div>
+				<!--  -->
+				<span th:text="${summonerData.summonerLevel}"style="font-size: 20px;"></span><br>
+				<span th:text ="${summonerData.name}" style="font-weight: 900; font-size: 30px"></span>
+				<input id="name" type="hidden" th:value="${summonerData.name}">
+			</div>
+		</div>
+		
+		<!-- 소환사 상세 정보 --> 
+		<div>
+			<ul th:each="detailInfo : ${detailInfo}" class="inline-flex"> 
+				<li>
+					<img th:src="'/images/tier/' + ${detailInfo.tier} + '.png'">
+				</li>
+				<li class="rankDetail">
+					<span th:if="${detailInfo.queueType} == 'RANKED_SOLO_5x5'" class="type">솔로랭크</span>
+					<span th:if="${detailInfo.queueType} == 'RANKED_FLEX_SR'" class="type">자유랭크</span><br>
+					<span th:text="${detailInfo.tier}+' '" class="tier"></span><span th:text="${detailInfo.tierRank}" class="tier"></span><br>
+					<span th:text="${detailInfo.leaguePoints} + 'LP'" class="point"></span>
+					<span th:text="${detailInfo.wins} + '승'" class="type"></span>
+					<span th:text="${detailInfo.losses} + '패'" class="type"></span><br>
+					<span th:text="'승률 ' + ${#numbers.formatInteger(detailInfo.wins*100 / (detailInfo.wins + detailInfo.losses), 2, 'COMMA')} + '%'" class="type"></span> <!--승*100 / (승+패)  -->
+				</li>
+			</ul>
+			
+			<!-- 랭겜 한종류만 했을때 언랭 효과-->
+			<ul th:if="${#lists.size(detailInfo) == 1}" class="inline-flex">
+				<li>
+					<img src="/images/tier/UNRANKED.png">
+				</li>
+				<li class="rankDetail">
+					<span th:if="${detailInfo[0].queueType} == 'RANKED_SOLO_5x5'"class="type">자유랭크</span><br>
+					<span th:if="${detailInfo[0].queueType} == 'RANKED_FLEX_SR'"class="type">솔로랭크</span><br>
+					<span>Unranked</span>
+				</li>
+			</ul>
+		</div>
+	</section>
+</html>

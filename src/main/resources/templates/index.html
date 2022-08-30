@@ -1,14 +1,14 @@
 <!DOCTYPE html>
-<html>
-
-<head>
-	<meta charset="UTF-8">
-	<title>테스트</title>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:insert="/common/common::head">
+<meta charset="UTF-8">
+<title>검색</title>
+<link rel="stylesheet" type="text/css" href="/css/search.css">
 </head>
 <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-<script crossorigin src="https://unpkg.com/react@17/umd/react.development.js"></script>
+<!-- <script crossorigin src="https://unpkg.com/react@17/umd/react.development.js"></script>
 <script crossorigin src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
-<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script> -->
 <!-- <script type="text/javascript">
  	$(function(){
  		
@@ -32,34 +32,40 @@
 	
 	}) 
 </script> -->
-<script type="text/babel">
-	const rootElement = document.getElementById("root");
-	const text = "Hello, world!"
-	const titleClassName = "title";
-	const props = {className : titleClassName, children: text};
-	const element = <h1 {...props} />;
-	
-	ReactDOM.render(element, rootElement);
+<script type="text/javascript">
+	$(function() {
+		if ($("#win").val() == "true") {
+			$("#text").append("");
+		}
+
+	})
 </script>
-<body>
-	<div id="root">
-
-	</div>
-	<div style="margin-top : 100px;">----------------------------------------------</div>
-	<div>
+<!-- <body>
+	<header>
+		<div>header</div>
+	</header>
+	<section>
+		<input id="win" type="hidden" value="true"> <span id="text"></span>
+		<div>
+			<form action="/search" method="get">
+				<input class="search_box" type="text" placeholder="소환사명" name="name">
+				<input class="search_submit" type="submit">
+			</form>
+		</div>
+	</section>
+	<footer>
+		<div>footer</div>
+	</footer>
+</body> -->
+<body style="background-color: black;">
+	<th:block th:insert="/common/common::header"></th:block>
+	<main style="margin: 300px 0 300px 0">
 		<form action="/search" method="get">
-			<input type="text" placeholder="소환사명" name="name"> <input type="submit">
+			<input type="text" name="name" placeholder="소환사명을 입력해주세요">
+			<input type="hidden" name="no" value =0>
+			<button type="submit">🔍</button>
 		</form>
-	</div>
-
-<!--	 	<div class="loginBox">
-		<form action="/search" method="post">
-			<input class="id" type="text" placeholder="아이디" name="id">
-			<input class="password" type="password" placeholder="비밀번호" name="password">
-			<input class="passwordCheck" type="password" placeholder="비밀번호확인">
-			<input class="submit" type="submit" disabled="disabled" value="로그인">
-		</form>
-	</div> -->
+	</main>
+	<th:block th:insert="/common/common::footer"></th:block>
 </body>
-
 </html>

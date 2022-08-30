@@ -17,8 +17,9 @@ import com.example.demo.repository.DetailInfoRepository;
 import com.example.demo.repository.MatchListRepository;
 import com.example.demo.repository.SummonerRepository;
 import com.example.demo.service.RiotService;
-import com.example.demo.service.apiResource.RiotResource;
-import com.example.demo.service.util.UtilClass;
+import com.example.demo.service.util.ParseService;
+import com.example.demo.service.util.RiotResource;
+import com.example.demo.service.util.UtilService;
 import com.jayway.jsonpath.JsonPath;
 
 
@@ -32,16 +33,18 @@ public class RiotServiceImpl implements RiotService{
 	private String key;
 	
 	@Autowired
-	UtilClass util;
+	UtilService util;
 	@Autowired
 	SummonerRepository summonerRepository;
 	@Autowired
 	DetailInfoRepository detailInfoRepository;
 	@Autowired
 	MatchListRepository matchListRepository;
+	@Autowired
+	ParseService parseService;
 	
 	//전적검색 서비스
-	public void search(ModelAndView mv, String name) throws Exception {
+	public void search(ModelAndView mv, String name, int no) throws Exception {
 		
 		id = summoner(name);
 		
@@ -53,8 +56,9 @@ public class RiotServiceImpl implements RiotService{
 			mv.addObject("summonerData", summonerData.get());
 			
 			summonerDetailInfo(id);
-			summonerGameData(summonerData.get().getMatchId(), 0);
-			mv.addObject("json", matchListRepository.findBySummonerIdOrderByGameStartTimestampDesc(id));
+			summonerGameData(summonerData.get().getMatchId(), no);
+			mv.addObject("detailInfo", detailInfoRepository.findBySummonerId(id));
+			mv.addObject("result", matchListRepository.findBySummonerIdOrderByGameStartTimestampDesc(id));
 			
 			//summonerGameData(puuid, 0)
 		}
@@ -103,11 +107,13 @@ public class RiotServiceImpl implements RiotService{
 			        	DetailInfo detailInfo = DetailInfo.builder()
 			        			.summoner(Summoner.builder().id((JsonPath.parse(summonerDetailInfo.get(i)).read("$['summonerId']").toString())).build())
 			        			.name(JsonPath.parse(summonerDetailInfo.get(i)).read("$['summonerName']").toString())
+			        			.tierRank(JsonPath.parse(summonerDetailInfo.get(i)).read("$['rank']").toString())
 			        			.queueType(JsonPath.parse(summonerDetailInfo.get(i)).read("$['queueType']").toString())
 			        			.tier(JsonPath.parse(summonerDetailInfo.get(i)).read("$['tier']").toString())
 			        			.leaguePoints(Long.parseLong((JsonPath.parse(summonerDetailInfo.get(i)).read("$['leaguePoints']").toString())))
 			        			.wins(Long.parseLong((JsonPath.parse(summonerDetailInfo.get(i)).read("$['wins']").toString())))
 			        			.losses(Long.parseLong((JsonPath.parse(summonerDetailInfo.get(i)).read("$['losses']").toString())))
+			        			
 			        			.build();
 			        			
 			        	detailInfoRepository.save(detailInfo);
@@ -126,6 +132,8 @@ public class RiotServiceImpl implements RiotService{
 	//게임 상세데이터 조회 및 저장 서비스
 	public void summonerGameData(String matchIdStr, int num) throws Exception{
 		String[] matchId = matchIdStr.replace("[", "").replace("]", "").replace("\"", "").split(","); 
+		String runeData = util.callApi("https://ddragon.leagueoflegends.com/cdn/12.15.1/data/en_US/runesReforged.json", "GET", null);
+		JSONArray jsonRuneData = util.stringToJsonArray(runeData);
 		int maxNum = (num+1)*10 -1;
 		if(matchId.length< maxNum) { 
 			maxNum = matchId.length-1;
@@ -152,13 +160,13 @@ public class RiotServiceImpl implements RiotService{
 						JSONObject subRunePart = (JSONObject)styles.get(1);
 						MatchList matchList = MatchList.builder()
 								.summoner(Summoner.builder().id(participant.get("summonerId").toString()).build())
-								.gameStartTimestamp(Long.parseLong(info.get("gameStartTimestamp").toString()))
+								.gameStartTimestamp(parseService.timestampToMmdd(Long.parseLong(info.get("gameStartTimestamp").toString())))
 								.matchId(matchId[i])
 								.name(participant.get("summonerName").toString())
 								.individualPosition(participant.get("individualPosition").toString())
 								.win(participant.get("win").toString())
-								.summoner1Id(Long.parseLong(participant.get("summoner1Id").toString()))
-								.summoner2Id(Long.parseLong(participant.get("summoner2Id").toString()))
+								.summoner1Id(parseService.spell(Long.parseLong(participant.get("summoner1Id").toString())))
+								.summoner2Id(parseService.spell(Long.parseLong(participant.get("summoner2Id").toString())))
 								.championName(participant.get("championName").toString())
 								.kills(Long.parseLong(participant.get("kills").toString()))
 								.deaths(Long.parseLong(participant.get("deaths").toString()))
@@ -178,13 +186,10 @@ public class RiotServiceImpl implements RiotService{
 								.item4(Long.parseLong(participant.get("item4").toString()))
 								.item5(Long.parseLong(participant.get("item5").toString()))
 								.item6(Long.parseLong(participant.get("item6").toString()))
-								.queueId(Long.parseLong(info.get("queueId").toString()))
-								.gameDuration(Long.parseLong(info.get("gameDuration").toString()))
-								
-								
-								.mainRune(Long.parseLong(mainRunePart.get("style").toString()))
-								.mainRuneFirst(Long.parseLong(perk.get("perk").toString()))
-								.subRune(Long.parseLong(subRunePart.get("style").toString()))
+								.queueId(parseService.queue(Long.parseLong(info.get("queueId").toString())))
+								.gameDuration(parseService.duration(Long.parseLong(info.get("gameDuration").toString())))
+								.mainRuneImg(parseService.mainRuneImg(jsonRuneData, Long.parseLong(perk.get("perk").toString())))
+								.subRuneImg(parseService.subRuneImg(jsonRuneData, Long.parseLong(subRunePart.get("style").toString())))
 								.build();
 						matchListRepository.save(matchList);
 						break;
@@ -192,5 +197,9 @@ public class RiotServiceImpl implements RiotService{
 				} 
 			}
 		}
+	}
+	
+	public void test() {
+		
 	}
 }

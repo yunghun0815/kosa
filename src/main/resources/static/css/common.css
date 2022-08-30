@@ -1,0 +1,128 @@
+@charset "UTF-8";
+/* 전체 */
+*{margin: 0; padding: 0; box-sizing: border-box;}
+/* html{
+	width: 1140px;
+} */
+li{
+	list-style: none;
+}
+a{
+	color: #333;
+	text-decoration: none !important;
+}
+.flex{
+	display: flex
+}
+.inline-flex{
+	display: inline-flex!important;
+}
+.end{
+	justify-content: flex-end;
+}
+.column{
+	flex-direction: column;
+}
+.center{
+	justify-content: center;
+}
+.between{
+	justify-content: space-between;
+}
+.view-size{
+	width: 1080px;
+	margin: 0 auto;
+}
+.cell{
+	display: table-cell;
+	height: 0px;
+}
+.middle{
+	vertical-align: middle;
+}
+/*header*/
+header{
+	background-color: black;
+	border-bottom: 1px solid white;
+}
+.first-header{
+	height: 50px;
+	line-height: 40px;
+	justify-content: space-between;
+}
+
+header .header-banner{
+	padding: 5px;
+	padding-left: 15px;
+}
+header .header-banner img{
+	height: 35px;
+	margin-left: 20px;
+}
+header .header-banner span{
+	color: white;
+	font-size: 12px;
+    position: relative;
+    bottom: 4px;
+}
+header .header-login{
+	padding-top:5px;
+    text-align: right;
+}
+header .header-login button{
+	margin-top: 7px;
+    float: right;
+	width:66px;
+	height:26px;
+	border-radius:4px;
+	/* background-color: #5383e8; */
+	background-color: gray;
+	color:white;
+	cursor: pointer;
+	border: none;
+	margin-right : 10px;
+	font-size: 12px;
+}
+header .header-login .menu ul{
+	margin-top: 3px;
+}
+header .header-login .menu ul li a{
+	color : white;
+	margin-right: 30px;
+}
+/*footer*/
+footer{
+	height: 200px;
+	border-top: 1px solid white;
+	background-color: black;
+	color : white;
+	padding-top: 50px;
+	text-align: center;
+}
+
+/*메인페이지*/
+main form{
+	width: 500px;
+	margin: 0 auto;
+	display: grid;
+	height: 50px;
+	grid-template-columns: 400px 100px;
+}
+main form input{
+	border-top-left-radius: 10px;
+	border-bottom-left-radius: 10px;
+	border-right: none;
+	border: 1px solid white;
+	padding-left: 15px;
+	font-size: 20px;
+}
+main form button{
+	border-top-right-radius: 10px;
+	border-bottom-right-radius: 10px;
+	border-left: none;
+	border: 1px solid white;
+	background-color: white;
+	font-size: 30px;
+	padding-left: 25px;
+	cursor: pointer;
+}

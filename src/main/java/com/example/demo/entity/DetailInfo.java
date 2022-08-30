@@ -1,9 +1,8 @@
 package com.example.demo.entity;
 
-import java.io.Serializable;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -22,12 +21,8 @@ import lombok.NoArgsConstructor;
 @Builder
 @Entity
 @Table(name = "detail_info")
-public class DetailInfo implements Serializable{
-//	DetailInfo(String name, String id, String queueType, String tier, long leaguePoints, long wins, long losses){
-//		this.name = name;
-//		summoner.setId(id);
-//		
-//	};
+public class DetailInfo{
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long no;
@@ -35,7 +30,7 @@ public class DetailInfo implements Serializable{
 	@Column(nullable = false)
 	private String name;
 	
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "summoner_id")
 	private Summoner summoner;
 	
@@ -45,7 +40,8 @@ public class DetailInfo implements Serializable{
 	@Column(nullable = false)
 	private String tier;
 	
-
+	@Column(nullable = false)
+	private String tierRank;
 	
 	@Column(nullable = false)
 	private long leaguePoints;
@@ -55,4 +51,5 @@ public class DetailInfo implements Serializable{
 	
 	@Column(nullable = false)
 	private long losses;
+
 }

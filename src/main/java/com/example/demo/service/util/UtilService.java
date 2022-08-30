@@ -12,7 +12,7 @@ import org.json.simple.parser.ParseException;
 import org.springframework.stereotype.Component;
 
 @Component
-public class UtilClass {
+public class UtilService {
 	
 	//API 호출 메소드
 	//example 

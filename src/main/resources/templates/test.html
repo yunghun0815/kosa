@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:insert="/common/common::head">
+<meta charset="UTF-8">
+<title>test page</title>
+</head>
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<body>
+	<th:block th:insert="/common/common::header"></th:block>
+	<main> 
+	<section class="summonerInfo"> 
+		<div class="summonerDetailInfo" >
+			<img src="https://ddragon.leagueoflegends.com/cdn/12.1.1/img/profileicon/543.png">
+			<div>
+				<span style="font-size: 20px;">149</span><br>
+				<span style="font-weight: 900; font-size: 30px">마스터간다정영훈</span>
+			</div>
+		</div>
+		<!-- 티어, 점수, 승률 -->
+		<div>
+			<ul th:each="detailInfo : ${detailInfo}" class="inline-flex"> <!-- th:each = data:${data}  -->
+				<li><!--detailInfo.tier  /images/tier/PLATINUM.png-->
+					<img th:src="'/images/tier/' + ${detailInfo.tier} + '.png'">
+				</li>
+				<li class="rankDetail">
+					<span th:if="${detailInfo.queueType} == 'RANKED_SOLO_5x5'" class="type">솔로랭크</span><br>
+					<span th:if="${detailInfo.queueType} == 'RANKED_FLEX_SR'" class="type">자유랭크</span><br>
+					<span th:text="${detailInfo.tier}" class="tier"></span><span th:text="${detailInfo.tierRank}" class="tier"></span><br>
+					<span th:text="${detailInfo.leaguePoints} + 'LP'" class="point"></span>
+					<span th:text="${detailInfo.wins} + '승'" class="type"></span>
+					<span th:text="${detailInfo.losses} + '패'" class="type"></span><br>
+					<span th:text="'승률 ' + ${#numbers.formatInteger(detailInfo.wins*100 / (detailInfo.wins + detailInfo.losses), 1, 'COMMA')} + '%'" class="type"></span> <!--승*100 / (승+패)  -->
+				</li>
+			</ul>
+			<ul th:if="${#lists.size(detailInfo) == 1}" class="inline-flex">
+					<li>
+						<img src="/images/tier/UNRANKED.png">
+					</li>
+					<li class="rankDetail">
+						<span th:if="${detailInfo[0].queueType} == 'RANKED_SOLO_5x5'"class="type">자유랭크</span><br>
+						<span th:if="${detailInfo[0].queueType} == 'RANKED_FLEX_SR'"class="type">솔로랭크</span><br>
+						<span>Unranked</span>
+					</li>
+			</ul>
+		</div>
+	</section>
+	
+	<section class="gameDetail">
+	<div id="myGameData" th:each="result : ${result}"  th:style="${result.win == 'true' ? 'background-color : #22c4d560' : 'background-color : #e5133c40'}"> <!-- 승패 여부에 따라 색상 바꿔야 함 win = #22c4d560 // lose = #e5133c40  -->
+			<ul class="gameType"> <!--게임타입-->
+				<li th:text="${result.queueId}" class="queueId"></li> <!-- 큐타입(솔랭,자랭,일겜...)-->
+				<li th:text="${result.gameStartTimestamp}" class="gameEndTimeStamp"></li> <!-- 게임 시작 시간  -->
+				<li th:if="${result.win} == 'true'" style="color: #1a78ae;">승리</li> <!-- 승/패 여부 -->
+				<li th:if="${result.win} == 'false'" style="color: #c6443e;">패배</li>
+				<li th:if="${result.gameDuration}" class="gameDuration"></li> <!-- 게임 진행 시간 -->
+			</ul>
+			<ul class="inline-flex imageInfo">
+				<li class="champion">
+					<img th:src="'https://ddragon.leagueoflegends.com/cdn/12.15.1/img/champion/'+${result.championName}+'.png'">
+				</li>
+				<li class="spell">
+					<img th:src="'https://ddragon.leagueoflegends.com/cdn/12.15.1/img/spell/'+${result.summoner1Id}"> 
+					<img th:src="'https://ddragon.leagueoflegends.com/cdn/12.15.1/img/spell/'+${result.summoner2Id}">
+				</li>
+				<li class="rune">
+					<img th:src="'https://ddragon.leagueoflegends.com/cdn/img/'+${result.mainRune}" style="background-color: black; border-radius: 20px;">
+					<img th:src="'https://ddragon.leagueoflegends.com/cdn/img/'+${result.subRune}">
+				</li>
+			</ul>
+			<ul class="kda">
+				<li>
+					<span th:text="${result.kills}" class="kill"></span>
+					<span> / </span>
+					<span th:text="${result.deaths}" class="death"></span>
+					<span> / </span>
+					<span th:text="${result.assists}" class="assist" ></span><br>
+					<span th:text="'평점 ' + ${#numbers.formatDemical((result.kills + result.deaths) / result.assists, 1, 2)}" class="aver"></span>
+				</li>
+			</ul>
+			<ul style="color:#555e5e; font-size: 18px;">
+				<li th:text="'레벨'+${result.champLevel}" style="margin-bottom: 7px;"></li>
+				<li style="margin-bottom: 7px;">
+					<span th:text="${result.totalMinionsKilled}+${result.neutralMinionsKilled}"></span>
+					<span>CS</span>
+				</li>
+			</ul>
+			<ul class="item-image">
+				<li>
+					<div>
+						<img th:src="'https://ddragon.leagueoflegends.com/cdn/12.15.1/img/item/'+${result.item0}+'.png'" th:onerror="this.style.display='none';">
+					</div>
+					<div>
+						<img th:src="'https://ddragon.leagueoflegends.com/cdn/12.15.1/img/item/'+${result.item1}+'.png'" th:onerror="this.style.display='none';">
+					</div>
+					<div>
+						<img th:src="'https://ddragon.leagueoflegends.com/cdn/12.15.1/img/item/'+${result.item2}+'.png'" th:onerror="this.style.display='none';">
+					</div>
+					<div>
+						<img th:src="'https://ddragon.leagueoflegends.com/cdn/12.15.1/img/item/'+${result.item6}+'.png'" th:onerror="this.style.display='none';">
+					</div>
+				</li>
+				<li style="padding-right: 35px;">
+					<div>
+						<img th:src="'https://ddragon.leagueoflegends.com/cdn/12.15.1/img/item/'+${result.item3}+'.png'" th:onerror="this.style.display='none';">
+					</div>
+					<div>
+						<img th:src="'https://ddragon.leagueoflegends.com/cdn/12.15.1/img/item/'+${result.item4}+'.png'" th:onerror="this.style.display='none';">
+					</div>
+					<div>
+						<img th:src="'https://ddragon.leagueoflegends.com/cdn/12.15.1/img/item/'+${result.item5}+'.png'" th:onerror="this.style.display='none';">
+					</div>
+				</li>
+				<li class="gold-ward" th:text="'골드 '+${result.goldEarned}"></li>
+				<li class="gold-ward" th:text="'제어와드 '+${result.visionWardsBoughtInGame}"></li>
+			</ul>
+			<input id="matchId" type="hidden" th:value="${result.matchId}">
+			<button class="closeinfo"><</button>
+			<button class="anyinfo">></button>
+		</div>
+		<button id="nextMatch" value = "1">더 보기</button>
+		<input id="puuid" type="hidden" th:value="${puuid}">
+	</section >
+	 </main>
+	<th:block th:insert="/common/common::footer"></th:block>
+</body>
+</html>

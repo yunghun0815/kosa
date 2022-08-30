@@ -1,9 +1,8 @@
 package com.example.demo.entity;
 
-import java.io.Serializable;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -22,8 +21,9 @@ import lombok.NoArgsConstructor;
 @Getter
 @Entity
 @Table(name = "match_list")
-public class MatchList implements Serializable{
+public class MatchList{
 	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long no;
@@ -32,11 +32,11 @@ public class MatchList implements Serializable{
 	private String name; //소환사 이름
 	
 	@JoinColumn(name = "summoner_id")
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.EAGER)
 	private Summoner summoner; //소환사 id
 	
 	@Column(nullable = false)
-	private long gameStartTimestamp; //시작시간
+	private String gameStartTimestamp; //시작시간
 	
 	@Column(nullable = false)
 	private String matchId; //게임 id
@@ -48,10 +48,10 @@ public class MatchList implements Serializable{
 	String win; //승리여부
 	
 	@Column(nullable = false)
-	long summoner1Id; //스펠1
+	String summoner1Id; //스펠1
 	
 	@Column(nullable = false)
-	long summoner2Id; //스펠2
+	String summoner2Id; //스펠2
 
 	@Column(nullable = false)
 	String championName; //이름
@@ -111,17 +111,14 @@ public class MatchList implements Serializable{
 	long item6;
 
 	@Column(nullable = false)
-	long queueId; //큐타입 ex)솔랭, 자랭
+	String queueId; //큐타입 ex)솔랭, 자랭
 
 	@Column(nullable = false)
-	long gameDuration; //게임시간
+	String gameDuration; //게임시간
 
 	@Column(nullable = false)
-	long mainRune; //메인룬타입
+	String mainRuneImg; //메인룬이미지
 
 	@Column(nullable = false)
-	long mainRuneFirst; //메인룬
-
-	@Column(nullable = false)
-	long subRune; //서브룬타입
+	String subRuneImg; //서브룬이미지
 }

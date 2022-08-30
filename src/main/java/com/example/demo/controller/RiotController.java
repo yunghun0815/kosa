@@ -15,16 +15,21 @@ public class RiotController {
 	@Autowired
 	RiotService riotService;
 	
+	@GetMapping("/test")
+	public String testPage() {
+		return "/test";
+	}
+	
 	@GetMapping("/search") //값 없을때 14초 , 값 있을때 3초 
-	public ModelAndView search(ModelAndView mv, @RequestParam(value = "name") String name) throws Exception {
+	public ModelAndView search(ModelAndView mv, @RequestParam(value = "name") String name, @RequestParam(value = "no") int no) throws Exception {
 		
 		long start = System.currentTimeMillis();
-		riotService.search(mv, name);
+		riotService.search(mv, name, no);
 		mv.setViewName("/riot/list");
 		long end = System.currentTimeMillis();
 		
 		System.out.println("------------- 시간 ----------------");
-		System.out.println((end-start)/1000.0);
+		System.out.println((end-start)/1000.0 + "초");
 		System.out.println("---------------------------------");
 		
 		return mv;
