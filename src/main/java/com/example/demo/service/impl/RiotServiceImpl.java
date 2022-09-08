@@ -7,6 +7,7 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -44,7 +45,7 @@ public class RiotServiceImpl implements RiotService{
 	ParseService parseService;
 	
 	//전적검색 서비스
-	public void search(ModelAndView mv, String name, int no) throws Exception {
+	public void search(ModelAndView mv, String name, int no, Pageable pageable) throws Exception {
 		
 		id = summoner(name);
 		
@@ -58,7 +59,7 @@ public class RiotServiceImpl implements RiotService{
 			summonerDetailInfo(id);
 			summonerGameData(summonerData.get().getMatchId(), no);
 			mv.addObject("detailInfo", detailInfoRepository.findBySummonerId(id));
-			mv.addObject("result", matchListRepository.findBySummonerIdOrderByGameStartTimestampDesc(id));
+			mv.addObject("result", matchListRepository.findBySummonerIdOrderByGameStartTimestampDesc(id, pageable));
 			
 			//summonerGameData(puuid, 0)
 		}

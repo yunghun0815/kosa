@@ -8,7 +8,7 @@
 			<img th:src="'https://ddragon.leagueoflegends.com/cdn/12.1.1/img/profileicon/' + ${summonerData.profileIconId} + '.png'">
 			<div>
 				<!--  -->
-				<span th:text="${summonerData.summonerLevel}"style="font-size: 20px;"></span><br>
+				<span th:text="'Lv.'+${summonerData.summonerLevel}"style="font-size: 20px;"></span><br>
 				<span th:text ="${summonerData.name}" style="font-weight: 900; font-size: 30px"></span>
 				<input id="name" type="hidden" th:value="${summonerData.name}">
 			</div>

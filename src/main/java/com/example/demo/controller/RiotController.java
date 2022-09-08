@@ -1,6 +1,7 @@
 package com.example.demo.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -21,10 +22,10 @@ public class RiotController {
 	}
 	
 	@GetMapping("/search") //값 없을때 14초 , 값 있을때 3초 
-	public ModelAndView search(ModelAndView mv, @RequestParam(value = "name") String name, @RequestParam(value = "no") int no) throws Exception {
+	public ModelAndView search(ModelAndView mv, @RequestParam(value = "name") String name, @RequestParam(value = "no") int no, Pageable pageable) throws Exception {
 		
 		long start = System.currentTimeMillis();
-		riotService.search(mv, name, no);
+		riotService.search(mv, name, no, pageable);
 		mv.setViewName("/riot/list");
 		long end = System.currentTimeMillis();
 		

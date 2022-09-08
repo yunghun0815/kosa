@@ -10,10 +10,14 @@ $(function(){
 			url:"search",
 			data:{
 				name : summonerName,
-				no : btnNo	
+				no : btnNo,	
+				size : 10,
+				page : btnNo
 			},
 			success: function(data){
 				section.append(section);
+				$(this).val(btnNo);
+				btnoNo ++;
 			}
 		});
 	});

@@ -3,6 +3,7 @@ package com.example.demo.repository;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.example.demo.entity.MatchList;
@@ -14,6 +15,6 @@ public interface MatchListRepository extends JpaRepository<MatchList, Long>{
 
 //	List<MatchList> findBySummonerId(String id);
 	
-	List<MatchList> findBySummonerIdOrderByGameStartTimestampDesc(String id);
+	List<MatchList> findBySummonerIdOrderByGameStartTimestampDesc(String id, Pageable pageable);
 
 }
