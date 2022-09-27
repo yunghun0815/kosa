@@ -2,7 +2,7 @@ $(function(){
 	var summonerName = $("#name").val();
 	var btnNo = $("#nextMatch").val();
 	var section = $(".gameDetail");
-	
+	var section2 = $(".gameDetail").html();
 	$("#nextMatch").click(function(){
 		
 		$.ajax({
@@ -14,10 +14,14 @@ $(function(){
 				size : 10,
 				page : btnNo
 			},
-			success: function(data){
-				section.append(section);
-				$(this).val(btnNo);
-				btnoNo ++;
+			success: function(result){
+				$(section).append(section2);
+				btnNo ++;
+				$("#nextMatch").val(btnNo);
+				if(btnNo >= 5){
+					$("#nextMatch").hide();
+					$(".gameDetail").css("padding-bottom", "0");
+				}
 			}
 		});
 	});
@@ -30,7 +34,7 @@ $(function(){
 		success: function(data){
 			runeJson = data;
 		}
-	});*/
+	});*/;;
 	
 })
 
