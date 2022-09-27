@@ -60,6 +60,7 @@
     padding: 20px;
     border: 1px solid lightgray;
     border-radius: 8px;
+    padding-bottom: 80px;
 }
 .gameDetail>div{
     margin: 30px auto;
@@ -266,6 +267,8 @@
     width: 200px;
     height: 50px;
     cursor: pointer;
+    position: relative;
+    bottom: 135px;
 }
 /*error page*/
 .check-false{
